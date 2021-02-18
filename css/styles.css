@@ -1,0 +1,11 @@
+.col-align-bottom{
+  align-items: flex-end;
+}
+
+.border-padding {
+  padding: 10px;
+}
+
+.button-margin-top {
+  margin-top: 15px;
+}
