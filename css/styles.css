@@ -9,3 +9,8 @@
 .button-margin-top {
   margin-top: 15px;
 }
+
+.button {
+  border: none;
+  background-color: #FFFFFF;
+}
