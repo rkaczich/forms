@@ -24,9 +24,7 @@ class EmployeeService {
 
 
   static processForm(event){
-    var id = event.target.id;
-    var employee = window.localStorage.getItem(id);
-    var empl = JSON.parse(employee);
+    var empl = JSON.parse(window.localStorage.getItem(event.target.id));
     document.getElementById("id_dialog_name").value = empl.name;
   }
 
