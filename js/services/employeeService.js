@@ -14,7 +14,7 @@ class EmployeeService {
       var newEmployee = new Employee(empl.id, empl.name, empl.email, empl.role);
       if(newEmployee instanceof Employee){
         console.log("JO Mitarbeiter wiederhergestellt");
-        // hier gehts weiter......
+         EmployeeService.createEmployeeLine(newEmployee);
       }
     } catch (e) {
       console.log(e);
@@ -22,6 +22,20 @@ class EmployeeService {
   }
   }
 
+static createEmployeeLine(employee){
+  var alle_zeilen = document.getElementById("userContent").innerHTML;
+  var row = "<div id="+ employee.id +" class='row'>"+
+     "<div class='col'>" + employee.id + "</div>"+
+     "<div class='col'>" + employee.name + "</div>"+
+     "<div class='col'>" + employee.email + "</div>"+
+     "<div class='col'>" + employee.role + "</div>"+
+     "<div class='col'><button class='button' onClick='EmployeeService.deleteEmployee(event)'><i id="+employee.id+" class='fa fa-trash'></i></button>   </div>"+
+     "</div>"
+
+     console.log(document);
+  alle_zeilen = alle_zeilen + row;
+  document.getElementById("userContent").innerHTML = alle_zeilen;
+}
 
   static deleteEmployee(event){
     console.log("Event:"+event.target.id);
@@ -47,18 +61,7 @@ class EmployeeService {
     var myLocalStorage = window.localStorage;
     myLocalStorage.setItem(employee.id, JSON.stringify(employee) );
 
-   var alle_zeilen = document.getElementById("userContent").innerHTML;
-   var row = "<div id="+ employee.id +" class='row'>"+
-      "<div class='col'>" + employee.id + "</div>"+
-      "<div class='col'>" + employee.name + "</div>"+
-      "<div class='col'>" + employee.email + "</div>"+
-      "<div class='col'>" + employee.role + "</div>"+
-      "<div class='col'><button class='button' onClick='EmployeeService.deleteEmployee(event)'><i id="+employee.id+" class='fa fa-trash'></i></button>   </div>"+
-      "</div>"
-
-      console.log(document);
-   alle_zeilen = alle_zeilen + row;
-   document.getElementById("userContent").innerHTML = alle_zeilen;
+   EmployeeService.createEmployeeLine(employee);
 
 /**
     var div = document.createElement("div");
