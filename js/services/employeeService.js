@@ -22,6 +22,14 @@ class EmployeeService {
   }
   }
 
+
+  static processForm(event){
+    var id = event.target.id;
+    var employee = window.localStorage.getItem(id);
+    var empl = JSON.parse(employee);
+    document.getElementById("id_dialog_name").value = empl.name;
+  }
+
 static createEmployeeLine(employee){
   var alle_zeilen = document.getElementById("userContent").innerHTML;
   var row = "<div id="+ employee.id +" class='row'>"+
@@ -29,7 +37,10 @@ static createEmployeeLine(employee){
      "<div class='col'>" + employee.name + "</div>"+
      "<div class='col'>" + employee.email + "</div>"+
      "<div class='col'>" + employee.role + "</div>"+
-     "<div class='col'><button class='button' onClick='EmployeeService.deleteEmployee(event)'><i id="+employee.id+" class='fa fa-trash'></i></button>   </div>"+
+     "<div class='col'>"+
+        "<button class='button' onClick='EmployeeService.deleteEmployee(event)'><i id="+employee.id+" class='fa fa-trash'></i></button>"+
+        "<button class='button' data-bs-toggle='modal' data-bs-target='#exampleModal' onClick='EmployeeService.processForm(event)'><i id="+employee.id+" class='fa fa-wrench'></i></button>"+
+        "</div>"+
      "</div>"
 
      console.log(document);
