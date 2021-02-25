@@ -1,25 +1,42 @@
 class EmployeeService {
 
   static init(){
-    var myLocalStorage = window.localStorage;
-    console.log(myLocalStorage);
 
-  for (var key in myLocalStorage) {
-    // hole json string aus local storage
-    var employee = myLocalStorage.getItem(key);
-    //console.log(employee);
-    // parse json string to class Emplyee
-    try {
-      var empl = JSON.parse(employee);
-      var newEmployee = new Employee(empl.id, empl.name, empl.email, empl.role, empl.lastModified);
-      if(newEmployee instanceof Employee){
-        console.log("JO Mitarbeiter wiederhergestellt");
-         EmployeeService.createEmployeeLine(newEmployee);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
+    checkElasticSearch();
+
+    var employees = loadAllEmployees();
+    var array = employees.then(data => {
+        // logic zur Anzeuge
+        for (var i = 0; i < data.length; i++) {
+          var empl = data[i]._source;
+          console.log(empl);
+          var newEmployee = new Employee(empl.id, empl.name, empl.email, empl.role, empl.lastModified);
+          if(newEmployee instanceof Employee){
+              EmployeeService.createEmployeeLine(newEmployee);
+          }
+        }
+    });
+
+
+    //var myLocalStorage = window.localStorage;
+    //console.log(myLocalStorage);
+
+  // for (var key in myLocalStorage) {
+  //   // hole json string aus local storage
+  //   var employee = myLocalStorage.getItem(key);
+  //   //console.log(employee);
+  //   // parse json string to class Emplyee
+  //   try {
+  //     var empl = JSON.parse(employee);
+  //     var newEmployee = new Employee(empl.id, empl.name, empl.email, empl.role, empl.lastModified);
+  //     if(newEmployee instanceof Employee){
+  //       console.log("JO Mitarbeiter wiederhergestellt");
+  //        EmployeeService.createEmployeeLine(newEmployee);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
 }
 
 static changeEmployee(){
