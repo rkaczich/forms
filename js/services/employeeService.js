@@ -27,24 +27,37 @@ static changeEmployee(){
   var email = document.getElementById("id_dialog_e-mail").value;
   var role = document.getElementById("id_dialog_role").value;
   var lastModified = new Date();
-  console.log("change: "+lastModified);
+
 
   var employee = new Employee(id, name, email, role, lastModified);
-  window.localStorage.setItem(id, JSON.stringify(employee));
 
-  var div = document.getElementById(id);
-  console.log(div);
-  div.remove();
-
-  EmployeeService.createEmployeeLine(employee);
+  var jsonEmpl = { doc:  { name: employee.name, email: employee.email} };
+  console.log("EEEE", jsonEmpl);
+var data = updateEmployee(jsonEmpl, id);
+  data.then(data => {
+    var result = data.result;
+    if(result === 'updated'){
+      alert("Mitarbeiter wurde aktualisiert.");
+      var div = document.getElementById(id);
+      div.remove();
+      EmployeeService.createEmployeeLine(employee);
+    }
+    else{
+        alert("Mitarbeiter wurde nicht aktualisiert.");
+    }
+  });
 }
 
   static processForm(event){
-    var empl = JSON.parse(window.localStorage.getItem(event.target.id));
-    document.getElementById("id_dialog_name").value = empl.name;
-    document.getElementById("id_dialog_e-mail").value = empl.email;
-    document.getElementById("id_dialog_role").value = empl.role;
-    document.getElementById("id_dialog_id").value = empl.id;
+    //var empl = JSON.parse(window.localStorage.getItem(event.target.id));
+    var data = loadEmployee(event.target.id);
+    data.then(data => {
+      console.log("DATA: ", data);
+      document.getElementById("id_dialog_name").value = data._source.name;
+      document.getElementById("id_dialog_e-mail").value = data._source.email;
+      document.getElementById("id_dialog_role").value = data._source.role;
+      document.getElementById("id_dialog_id").value = data._id;
+    });
   }
 
 static createEmployeeLine(employee){
@@ -88,7 +101,7 @@ static createEmployeeLine(employee){
     var name = document.getElementById("id_name").value;
     var email = document.getElementById("id_e-mail").value;
     var role = document.getElementById("id_role").value;
-    var id = new Date().getTime();
+    var id = new Date().getTime()+"";
     var lastModified = new Date();
     console.log("add: "+lastModified);
     var employee = new Employee(id, name, email, role, lastModified);
@@ -98,6 +111,7 @@ static createEmployeeLine(employee){
       var _id = data._id;
       employee.id = _id;
       EmployeeService.createEmployeeLine(employee);
+
     });
   }
 

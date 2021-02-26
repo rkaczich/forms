@@ -3,6 +3,25 @@ function checkElasticSearch(){
   fetch('http://localhost:9200').then(response => response.json()).then(data => console.log(data));
 }
 
+function updateEmployee(employee, id){
+  return fetch('http://localhost:9200/employees/_update/'+id , {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(employee)
+    })
+  .then(response => response.json())
+  .then(data => {return data});
+}
+
+function loadEmployee(_id){
+  return fetch('http://localhost:9200/employees/_doc/'+_id)
+    // Empfang des Response-Objektes und die Konvertierung in ein JSON Objekt
+    .then(response => response.json())
+    // Empfang der JSON Daten zur Weiterverarbeitung
+    .then(data => {return data});
+}
 
 function deleteEmployee(_id){
   return fetch('http://localhost:9200/employees/_doc/'+_id, {
