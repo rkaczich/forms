@@ -1,0 +1,69 @@
+# eine neue Datenbank (INDEX) anlegen
+PUT /employees
+
+POST /employees/_doc
+{
+  "name": "Emil",
+  "email": "herbert@irgendwas.de",
+  "role": "Administrator",
+  "id": 1614152303547
+}
+
+PUT /employees/_create/13
+{
+  "name": "13",
+  "email": "egon@irgendwas.de",
+  "role": "Administrator",
+  "id": 1614152303543,
+  "lastModified": "2021-02-25"
+}
+
+POST /employees/_update/c4pn03cBFnC2JHAQSLMw
+{
+  "doc": {
+    "lastModified": "2021-02-25"
+  }
+}
+
+# Anzeige eines Dokumentes
+GET /employees/_doc/ecBj3XcBy5xSGlvbQ3tp
+
+GET /employees/_search/?size=100
+
+
+# Löschen eines Dokumentes
+DELETE /employees/_doc/ecBj3XcBy5xSGlvbQ3tp
+
+GET /employees/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "name":   "Herbert" }}
+      ]
+    }
+  }
+}
+
+# eine Datenbank (INDEX) löschen
+DELETE /employees
+
+PUT /employees
+{
+  "mappings": {
+    "properties": {
+      "lastModified": {
+        "type": "date"
+      }
+    }
+  }
+}
+
+PUT /employee1/_create/1
+{
+"ID": "1",
+"Name":"Peter",
+"EMail":"peter@irgendwas.de",
+"Rolle":"Administrator",
+"lastModified":"2021-02-25"
+}
